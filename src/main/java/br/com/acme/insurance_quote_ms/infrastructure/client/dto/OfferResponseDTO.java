@@ -1,4 +1,4 @@
-package br.com.acme.insurance_quote_ms.application.dto;
+package br.com.acme.insurance_quote_ms.infrastructure.client.dto;
 
 import lombok.Builder;
 
