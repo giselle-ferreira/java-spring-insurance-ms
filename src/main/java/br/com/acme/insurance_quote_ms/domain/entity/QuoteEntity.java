@@ -31,7 +31,6 @@ public class QuoteEntity {
     @ElementCollection
     private List<String> assistances;
 
-
     @Embedded
     private Customer customer;
 
