@@ -18,9 +18,6 @@ import java.util.List;
 @Table(name = "quotes")
 public class QuoteEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String productId;
     private String offerId;
     private String category;
@@ -34,9 +31,13 @@ public class QuoteEntity {
     @ElementCollection
     private List<String> assistances;
 
+
     @Embedded
     private Customer customer;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String policyId;
     private LocalDateTime policyIssuedAt;
 }
