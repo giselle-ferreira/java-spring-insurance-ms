@@ -33,5 +33,34 @@ services:
         source: .
         target: /config
 
+  insurance-quote-ms:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: insurance-quote-ms
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/insurance_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+      # rabbitmq
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      QUOTE_EXCHANGE: quote.exchange
+      POLICY_EXCHANGE: policy.exchange
+      INSURANCE_QUOTE_RECEIVED_QUEUE: insurance-quote-received
+      INSURANCE_POLICY_CREATED_QUEUE: insurance-policy-created
+      QUOTE_RECEIVED_ROUTING_KEY: quote.received
+      POLICY_CREATED_ROUTING_KEY: policy.created
+      #catalog-service
+      CATALOG_SERVICE_URL: http://mock-catalog-service:1080
+    depends_on:
+      - postgres
+      - rabbitmq
+      - mock-catalog-service
+
 volumes:
   insurance_db_data:
