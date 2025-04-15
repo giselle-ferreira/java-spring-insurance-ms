@@ -18,7 +18,7 @@ public class RabbitMQConsumer {
         this.quoteService = quoteService;
     }
 
-    @RabbitListener(queues = "${INSURANCE_POLICY_CREATED_QUEUE}")
+    @RabbitListener(queues = "${insurance.policy.created.queue}")
     public void listenPolicyCreatedMessage(Message<PolicyCreatedMessageDTO> message){
 
         logger.info("Message consumed: {}", message);

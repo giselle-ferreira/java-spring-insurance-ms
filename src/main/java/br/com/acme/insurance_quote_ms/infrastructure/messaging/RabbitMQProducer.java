@@ -18,6 +18,7 @@ public class RabbitMQProducer {
     }
 
     public void sendQuoteReceivedMessage(Message<QuoteReceivedMessageDTO> message){
+
         rabbitTemplate.convertAndSend(
                 rabbitMqConfig.getQuoteExchange(),
                 rabbitMqConfig.getQuoteReceivedRoutingKey(),

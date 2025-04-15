@@ -11,22 +11,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    @Value("${QUOTE_EXCHANGE}")
+    @Value("${quote.exchange}")
     private String quoteExchange;
 
-    @Value("${POLICY_EXCHANGE}")
+    @Value("${policy.exchange}")
     private String policyExchange;
 
-    @Value("${INSURANCE_QUOTE_RECEIVED_QUEUE}")
+    @Value("${insurance.quote.received.queue}")
     private String quoteReceivedQueue;
 
-    @Value("${INSURANCE_POLICY_CREATED_QUEUE}")
+    @Value("${insurance.policy.created.queue}")
     private String policyCreatedQueue;
 
-    @Value("${QUOTE_RECEIVED_ROUTING_KEY}")
+    @Value("${quote.received.routing.key}")
     private String quoteReceivedRoutingKey;
 
-    @Value("${POLICY_CREATED_ROUTING_KEY}")
+    @Value("${policy.created.routing.key}")
     private String policyCreatedRoutingKey;
 
     public String getQuoteExchange() {
