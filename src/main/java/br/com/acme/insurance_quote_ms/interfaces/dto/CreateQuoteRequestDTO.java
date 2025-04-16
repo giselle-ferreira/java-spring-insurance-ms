@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
-public record CreateQuoteRequest(
+public record CreateQuoteRequestDTO (
         String productId,
         String offerId,
         String category,

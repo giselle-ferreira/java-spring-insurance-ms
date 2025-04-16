@@ -13,6 +13,7 @@ public record OfferResponseDTO(
         String productId,
         String name,
         LocalDateTime createdAt,
+        boolean active,
         Map<String, BigDecimal> coverages,
         List<String> assistances,
         MonthlyPremiumAmountDTO monthlyPremiumAmount
