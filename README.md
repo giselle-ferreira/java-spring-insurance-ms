@@ -3,10 +3,13 @@
 ![Static Badge](https://img.shields.io/badge/Status-Em%20Desenvolvimento-blue)
 
 > ## Introdução
-- Projeto desenvolvido com o intuito de implementar um microsserviço de cotação de seguros. 
+- Projeto desenvolvido com o intuito de implementar um microsserviço de cotação de seguros.
+<br>
 
 > ## Sobre o Projeto
 - O Insurance Quote Microservice é um sistema que permite criar cotações de seguros com base em produtos e ofertas fornecidos por um serviço externo (catalog-service-ms/ mockserver). O Microsserviço deve validar as requisições, persistir os dados em um banco de dados, e publica mensagens em filas para comunicação com outros sistemas.
+
+<br>
 
 > ## Tecnologias/ Ferramentas
 - Java 17 + Maven
@@ -19,6 +22,8 @@
 - MapStruct
 - SLF4J
 
+<br>
+
 > ## Arquitetura
 ### Escolha da Arquitetura Hexagonal (Clean Architecture)
 A arquitetura foi escolhida para garantir modularidade e independência, pois permite:
@@ -28,6 +33,8 @@ A arquitetura foi escolhida para garantir modularidade e independência, pois pe
 - Facilitar implementação dos testes unitários;
 - Adicionar novos endpoints ou integrações.
 
+<br>
+
 ### Estrutura das Camadas
 
 1. **Domain**: Contém entidades e regras de negócio
@@ -35,9 +42,12 @@ A arquitetura foi escolhida para garantir modularidade e independência, pois pe
 3. **Interfaces:** Atua como 'ponte' entre o ambiente externo e a lógica interna
 4. **Infrastructure:** Implementa detalhes técnicos e configurações
 
->## Diagrama de Atividades
+<br>
 
+>## Diagrama de Atividades
 ![img.png](img.png)
+
+<br>
 
 >## Decisões e Premissas Técnicas
 #### 1. PostgreSQL
@@ -53,12 +63,14 @@ A arquitetura foi escolhida para garantir modularidade e independência, pois pe
 ### 3. Records para DTOS
 - Foram adotados por sua imutabilidade e concisão
 
-### Tratamento de Exceções
+### 4. Tratamento de Exceções
 - Definida para retornar respostas HTTP com mensagens claras
+
+<br>
 
 >## Instruções para Executar o Projeto
 ### Pré-requisitos
-- Docker instalado
+- Docker instalado e Docker Compose
 - Java 17
 - Maven
 
