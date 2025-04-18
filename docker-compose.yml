@@ -8,8 +8,14 @@ services:
       POSTGRES_DB: insurance_db
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "admin", "-d", "insurance_db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     volumes:
-      - insurance_db_data:/postgresql/data
+      - insurance_db_data:/bitnami/postgresql
     networks:
       - app-network
 
@@ -27,7 +33,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 60s
+      start_period: 90s
     networks:
       - app-network
 
@@ -56,15 +62,14 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/insurance_db
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin123
-      CATALOG_SERVICE_URL: http://mock-catalog-service:1080
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
       mock-catalog-service:
         condition: service_started
-    command: [ "sh", "-c", "sleep 30 && java -jar app.jar" ]
+    command: [ "sh", "-c", "java -jar app.jar" ]
     networks:
       - app-network
 

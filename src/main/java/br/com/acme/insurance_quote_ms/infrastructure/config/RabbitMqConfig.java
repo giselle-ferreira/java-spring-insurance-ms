@@ -1,6 +1,9 @@
 package br.com.acme.insurance_quote_ms.infrastructure.config;
 
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import lombok.Getter;
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Getter
 @Configuration
 public class RabbitMqConfig {
 
@@ -29,28 +33,9 @@ public class RabbitMqConfig {
     @Value("${policy.created.routing.key}")
     private String policyCreatedRoutingKey;
 
-    public String getQuoteExchange() {
-        return quoteExchange;
-    }
-
-    public String getPolicyExchange() {
-        return policyExchange;
-    }
-
-    public String getQuoteReceivedQueue() {
-        return quoteReceivedQueue;
-    }
-
-    public String getPolicyCreatedQueue() {
-        return policyCreatedQueue;
-    }
-
-    public String getQuoteReceivedRoutingKey() {
-        return quoteReceivedRoutingKey;
-    }
-
-    public String getPolicyCreatedRoutingKey() {
-        return policyCreatedRoutingKey;
+    @Bean
+    public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory){
+        return new RabbitAdmin(connectionFactory);
     }
 
     @Bean
@@ -59,28 +44,28 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public Queue QuoteReceivedQueue(){
-        return new Queue(quoteReceivedQueue);
+    public Queue quoteReceivedQueue(){
+        return new Queue(quoteReceivedQueue, true, false, false);
     }
 
     @Bean
     public DirectExchange quoteExchange(){
-        return new DirectExchange(quoteExchange);
+        return new DirectExchange(quoteExchange, true, false);
     }
 
     @Bean
-    public Binding quoteReceivedBinding(@Qualifier("QuoteReceivedQueue") Queue quoteReceivedQueue, DirectExchange quoteExchange) {
+    public Binding quoteReceivedBinding(@Qualifier("quoteReceivedQueue") Queue quoteReceivedQueue, DirectExchange quoteExchange) {
         return BindingBuilder.bind(quoteReceivedQueue).to(quoteExchange).with(quoteReceivedRoutingKey);
     }
 
     @Bean
     public Queue policyCreatedQueue(){
-        return new Queue(policyCreatedQueue);
+        return new Queue(policyCreatedQueue, true, false, false);
     }
 
     @Bean
     public DirectExchange policyExchange(){
-        return new DirectExchange(policyExchange);
+        return new DirectExchange(policyExchange, true, false);
     }
 
     @Bean

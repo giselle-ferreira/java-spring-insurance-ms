@@ -19,12 +19,14 @@ public class RabbitMQConsumer {
     @RabbitListener(queues = "${insurance.policy.created.queue}")
     public void listenPolicyCreatedMessage(Message<PolicyCreatedMessageDTO> message){
 
+        PolicyCreatedMessageDTO payload = message.getPayload();
+
         logger.info("Message consumed: {}", message);
 
         quoteService.updateQuoteWithPolicy(
-                message.getPayload().id(),
-                message.getPayload().policyId(),
-                message.getPayload().policyIssuedAt()
+                payload.id(),
+                payload.policyId(),
+                payload.policyIssuedAt()
         );
     }
 }

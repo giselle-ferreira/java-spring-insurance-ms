@@ -24,6 +24,7 @@ public class QuoteService {
     private final RabbitMQProducer rabbitMQProducer;
 
     public QuoteResponseDTO createQuote(CreateQuoteRequestDTO request){
+
         if(!catalogServiceClient.validateQuoteRequest(request)) {
             throw new IllegalArgumentException("Invalid Quote request");
         }

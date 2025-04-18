@@ -1,6 +1,5 @@
 package br.com.acme.insurance_quote_ms.domain.validation;
 
-import br.com.acme.insurance_quote_ms.domain.model.Coverage;
 import br.com.acme.insurance_quote_ms.infrastructure.client.dto.OfferResponseDTO;
 import br.com.acme.insurance_quote_ms.infrastructure.client.dto.ProductResponseDTO;
 import br.com.acme.insurance_quote_ms.interfaces.dto.CreateQuoteRequestDTO;
@@ -29,12 +28,17 @@ public class CatalogValidationService {
         return offer != null && offer.active() && offer.productId().equals(productId);
     }
 
-    private boolean validateCoverages(OfferResponseDTO offer, List<Coverage> requestCoverages) {
+    private boolean validateCoverages(OfferResponseDTO offer, Map<String, BigDecimal> requestCoverages) {
         Map<String, BigDecimal> offerCoverages = offer.coverages();
-        for (Coverage coverage : requestCoverages) {
-            String coverageName = coverage.getName();
-            BigDecimal coverageValue = coverage.getValue();
-            if (!offerCoverages.containsKey(coverageName) || coverageValue.compareTo(offerCoverages.get(coverageName)) > 0) {
+
+        for (Map.Entry<String, BigDecimal> entry : requestCoverages.entrySet()){
+            String coverageName = entry.getKey();
+            BigDecimal coverageValue = entry.getValue();
+
+            if (!offerCoverages.containsKey(coverageName)) {
+                return false;
+            }
+            if(coverageValue.compareTo(offerCoverages.get(coverageName)) > 0){
                 return false;
             }
         }
@@ -51,9 +55,8 @@ public class CatalogValidationService {
         return monthlyPremium.compareTo(minAmount) >= 0 && monthlyPremium.compareTo(maxAmount) <= 0;
     }
 
-    private boolean validateTotalCoverageValue(List<Coverage> coverages, BigDecimal totalCoverageAmount) {
-        BigDecimal sum = coverages.stream()
-                .map(Coverage::getValue)
+    private boolean validateTotalCoverageValue(Map<String, BigDecimal> coverages, BigDecimal totalCoverageAmount) {
+        BigDecimal sum = coverages.values().stream()
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return sum.compareTo(totalCoverageAmount) == 0;
     }

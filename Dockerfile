@@ -1,4 +1,6 @@
-FROM maven:3.9.9-eclipse-temurin-17 AS builder
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+
+ENV LANG=C.UTF-8
 
 WORKDIR /app
 
